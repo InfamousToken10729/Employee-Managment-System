@@ -25,36 +25,6 @@ protected:
     //temp variables
     string temp_street_name, temp_near_by_landmarks, temp_building_num, temp_floor_num, temp_apart_num, input;
 
-    //vectors
-    vector<CompanyPosition> display_positions = validate_input.return_positions();
-    vector<CompanyPosition> Executive_Positions = {
-        //Executive positions
-        {"Chief Executive Officer", "CEO"},
-        {"Chief Operating Officer", "COO"},
-        {"Chief Financial Officer", "CFO"},
-        {"Chief Marketing Officer", "CMO"},
-        {"Chief Technology Officer", "CTO"},
-        {"President", "President"},
-        {"Vice President", "VP"}
-    };
-    vector<CompanyPosition> positions_managment_operational = {
-        //Managment positions
-        {"General Manager", "GM"},
-        {"Operaation Manager", "OM"},
-        {"Human Resource Manger", "HR"},
-        {"Marketing Manager", "MM"},
-        {"Finance Manager", "FM"},
-        {"Information Technology Manager", "IT"},
-        {"Project Manager", "PM"},
-        //Operational positions
-        {"Sales Representative", "SR"},
-        {"Customer Service Representative", "CSR"},
-        {"Administrative Assistant", "AA"},
-        {"Data Analyst", "DA"},
-        {"Quality Control Inspector", "QCI"},
-        {"Production Worker", "PW"}
-    };
-
     int validate_state = 0;
 
 public:
@@ -304,7 +274,7 @@ public:
             case 1: {
                 system(CLEAR);
                 cin.ignore();
-                cout << "Enter employee ID you want to search or tpye \"exit\" to return to the main menu" << el;
+                cout << "Enter employee ID you want to search or type \"exit\" to return to the main menu" << el;
                 while (true) {
                     validate_state = 0; //reset validate_state
                     input = user_input.get_input();
@@ -383,17 +353,17 @@ public:
                     validate_state = 0; //reset validate_state
                     input = user_input.get_input();
 
-                    // First, check if the role is a non-executive role
+                    // Check if the role is a non-executive role
                     validate_state = validate_input.validate_non_executive_role(input);
-                    if (validate_state == 0) {
+                    if (validate_state == 0 /*Role entered is a non-executive role*/) {
                         cout << "Role entered is a non-executive role, please enter an executive role or type \"exit\" to return to the main menu" << el;
                         continue;
                     }
 
-                    // Then, check if the role is an executive role
+                    // Check if the role is an executive role
                     validate_state = validate_input.validate_executive_role(input);
-                    if (validate_state == 0) {
-                        cout << "Role not found, please enter a valid executive role or type \"exit\" to return to the main menu" << el;
+                    if (validate_state == 3) {
+                        cout << "No employee with such role where found, please enter a valid executive role or type \"exit\" to return to the main menu" << el;
                     }
                     else if (validate_state == -1) {
                         display_menu();
@@ -747,7 +717,7 @@ public:
         cout << "---------------------------------------------------" << el;
         // Display Management and Operational Positions
         cout << "Management and Operational Roles:" << el;
-        for (const auto& pos : positions_managment_operational) {
+        for (const auto& pos : non_executive_positions) {
             cout << "| " << left << setw(32) << pos.name << " | " << setw(12) << pos.abbreviation << " |" << el;
         }
         cout << "---------------------------------------------------" << el;

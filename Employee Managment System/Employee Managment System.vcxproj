@@ -137,6 +137,7 @@
     <ClInclude Include="main.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="outputhandler.h" />
+    <ClInclude Include="positions.h" />
     <ClInclude Include="SalaryCalculator.h" />
     <ClInclude Include="staffmanagmentsystem.h" />
     <ClInclude Include="validator.h" />

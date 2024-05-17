@@ -5,6 +5,7 @@
     0 --> validation passed succesfully
     1 --> invalid input, user entered wrong data or very large input
     2 --> duplicate data found
+	3 --> no data found
 */
 
 #ifndef VALIDATOR_H
@@ -13,67 +14,11 @@
 #include "main.h"
 #include "database.h"
 #include "employee.h"
-
-struct CompanyPosition {
-    string name;
-    string abbreviation;
-};
+#include "positions.h"
 
 class Employee_Validator {
 	int search_result = 0;
     Database search;
-    vector<CompanyPosition> Executive_Positions = {
-        //Executive positions
-        {"Chief Executive Officer", "CEO"},
-        {"Chief Operating Officer", "COO"},
-        {"Chief Financial Officer", "CFO"},
-        {"Chief Marketing Officer", "CMO"},
-        {"Chief Technology Officer", "CTO"},
-        {"President", "President"},
-        {"Vice President", "VP"}
-    };
-    vector<CompanyPosition> non_executive_positions = {
-        //Managment positions
-        {"General Manager", "GM"},
-        {"Operaation Manager", "OM"},
-        {"Human Resource Manger", "HR"},
-        {"Marketing Manager", "MM"},
-        {"Finance Manager", "FM"},
-        {"Information Technology Manager", "IT"},
-        {"Project Manager", "PM"},
-        //Operational positions
-        {"Sales Representative", "SR"},
-        {"Customer Service Representative", "CSR"},
-        {"Administrative Assistant", "AA"},
-        {"Data Analyst", "DA"},
-        {"Quality Control Inspector", "QCI"},
-        {"Production Worker", "PW"}
-    };
-    vector<CompanyPosition> positions = {
-        //Executive positions
-        {"Chief Executive Officer", "CEO"},
-        {"Chief Operating Officer", "COO"},
-        {"Chief Financial Officer", "CFO"},
-        {"Chief Marketing Officer", "CMO"},
-        {"Chief Technology Officer", "CTO"},
-        {"President", "President"},
-        {"Vice President", "VP"},
-        //Managment positions
-        {"General Manager", "GM"},
-        {"Operaation Manager", "OM"},
-        {"Human Resource Manger", "HR"},
-        {"Marketing Manager", "MM"},
-        {"Finance Manager", "FM"},
-        {"Information Technology Manager", "IT"},
-        {"Project Manager", "PM"},
-        //Operational positions
-        {"Sales Representative", "SR"},
-        {"Customer Service Representative", "CSR"},
-        {"Administrative Assistant", "AA"},
-        {"Data Analyst", "DA"},
-        {"Quality Control Inspector", "QCI"},
-        {"Production Worker", "PW"}
-    };
 
 public:
     //Validate Inputs
@@ -224,19 +169,19 @@ public:
         transform(lowercase_input.begin(), lowercase_input.end(), lowercase_input.begin(), ::tolower);
 
         for (const auto& executive_position : Executive_Positions) {
-            // Convert both position name and abbreviation to lowercase for comparison
-            string lowercase_executive_position_name = executive_position.name;
+            // Convert both position name and abbreviation to lowercase for comparison            
             string lowercase_executive_position_abbreviation = executive_position.abbreviation;
-            transform(lowercase_executive_position_name.begin(), lowercase_executive_position_name.end(), lowercase_executive_position_name.begin(), ::tolower);
             transform(lowercase_executive_position_abbreviation.begin(), lowercase_executive_position_abbreviation.end(), lowercase_executive_position_abbreviation.begin(), ::tolower);
 
-            if (lowercase_executive_position_name == lowercase_input || lowercase_executive_position_abbreviation == lowercase_input) {
+            if (lowercase_executive_position_abbreviation == lowercase_input) {
                 // Call find_employee_by_role and check if an employee exists
                 search_result = search.find_employee_by_role(role_check);
                 if (search_result != -1) {
                     return 2; //Role found
                 }
-                return 0; // Validation passed successfully
+				else if (search_result == -1) {
+					return 3; //No employee where found with such role
+				}
             }
         }
         return 1; // Return error
@@ -252,12 +197,10 @@ public:
 
         for (const auto& non_executive_position : non_executive_positions) {
             // Convert both position name and abbreviation to lowercase for comparison
-            string lowercase_non_executive_position_name = non_executive_position.name;
             string lowercase_non_executive_position_abbreviation = non_executive_position.abbreviation;
-            transform(lowercase_non_executive_position_name.begin(), lowercase_non_executive_position_name.end(), lowercase_non_executive_position_name.begin(), ::tolower);
             transform(lowercase_non_executive_position_abbreviation.begin(), lowercase_non_executive_position_abbreviation.end(), lowercase_non_executive_position_abbreviation.begin(), ::tolower);
 
-            if (lowercase_non_executive_position_name == lowercase_input || lowercase_non_executive_position_abbreviation == lowercase_input) {
+            if (lowercase_non_executive_position_abbreviation == lowercase_input) {
                 // Call find_employee_by_role and check if an employee exists
                 search_result = search.find_employee_by_role(role_check);
                 if (search_result != -1) {
