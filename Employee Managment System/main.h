@@ -25,7 +25,7 @@ using namespace std;
 
 #ifdef _WIN32
 #define CLEAR "cls"
-#elif _unix_
+#elif __unix__
 #define CLEAR "clear"
 #elif __APPLE__
 #define CLEAR "clear"
