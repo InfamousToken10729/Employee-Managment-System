@@ -255,10 +255,5 @@ public:
 			return true;
 		}
 	}
-
-	//Return positions for printing
-    vector<CompanyPosition> return_positions() {
-        return positions;
-    }
 };
 #endif
